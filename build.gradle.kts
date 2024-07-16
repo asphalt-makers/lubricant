@@ -68,6 +68,7 @@ dependencies {
         exclude("it.ozimov")
         testImplementation("org.signal:embedded-redis:0.8.3")
     }
+    testImplementation("de.flapdoodle.embed:de.flapdoodle.embed.mongo:4.16.0")
 
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")

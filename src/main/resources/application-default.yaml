@@ -7,9 +7,7 @@ spring:
   datasource:
     hikari:
       connection-test-query: SELECT 1 FROM DUAL
-      pool-name: SpringBootHikariCP
     driver-class-name: com.mysql.cj.jdbc.Driver
-    type: com.zaxxer.hikari.HikariDataSource
     url: jdbc:mysql://127.0.0.1:13306/lubricant?serverTimezone=Asia/Seoul
     username: local
     password: local
