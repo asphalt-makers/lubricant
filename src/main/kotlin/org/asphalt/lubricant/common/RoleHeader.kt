@@ -1,7 +1,6 @@
 package org.asphalt.lubricant.common
 
 object RoleHeader {
-
     object Admin {
         const val KEY = "admin-id"
         const val NAME = "Admin ID"

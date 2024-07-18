@@ -1,0 +1,40 @@
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  output:
+    ansi:
+      enabled: always
+  datasource:
+    url: jdbc:h2:mem:testdb
+    username: sa
+    driver-class-name: org.h2.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    generate-ddl: true
+  h2:
+    console:
+      enabled: true
+      settings:
+        web-allow-others: true
+      path: /h2-console
+  data:
+    redis:
+      timeout: 3000ms
+      connect-timeout: 3000ms
+      lettuce:
+        cluster:
+          refresh:
+            adaptive: true
+            period: 60s
+      cluster:
+        nodes: localhost:6381
+      password: local
+  config:
+    activate:
+      on-profile: test
+de:
+  flapdoodle:
+    mongodb:
+      embedded:
+        version: 5.0.5
