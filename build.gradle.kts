@@ -68,7 +68,8 @@ dependencies {
         exclude("it.ozimov")
         testImplementation("org.signal:embedded-redis:0.8.3")
     }
-    testImplementation("de.flapdoodle.embed:de.flapdoodle.embed.mongo:4.16.0")
+
+    testImplementation("de.flapdoodle.embed:de.flapdoodle.embed.mongo.spring30x:4.11.0")
 
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
@@ -109,7 +110,6 @@ tasks.withType<Test> {
 
 tasks.getByName<Test>("test") {
     useJUnitPlatform()
-
     addTestListener(object : TestListener {
         override fun beforeSuite(suite: TestDescriptor) {}
         override fun beforeTest(testDescriptor: TestDescriptor) {}

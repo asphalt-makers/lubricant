@@ -1,6 +1,4 @@
 spring:
-  application:
-    name: lubricant
   output:
     ansi:
       enabled: always
