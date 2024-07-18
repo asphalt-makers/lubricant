@@ -23,3 +23,5 @@ spring:
           refresh:
             adaptive: true
             period: 60s
+  jpa:
+    open-in-view: false
