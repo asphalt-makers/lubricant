@@ -7,7 +7,9 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/v1")
-class SampleController {
+class SampleController(
+    private val sampleService: SampleService,
+) {
     @GetMapping("/hello")
-    fun hello(): ResponseEntity<String> = ResponseEntity.ok("Hello, World!")
+    fun hello(): ResponseEntity<String> = ResponseEntity.ok(sampleService.hello())
 }

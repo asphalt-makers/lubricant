@@ -186,6 +186,7 @@ private object PrivacyFilter {
             stringPattern.format("email").toRegex(),
             stringPattern.format("birthday").toRegex(),
 //        intPattern.format("userId").toRegex(),
+//        intPattern.format("user-id").toRegex(),
         )
 
     fun masking(input: String): String =
