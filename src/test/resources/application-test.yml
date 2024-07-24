@@ -28,3 +28,14 @@ de:
     mongodb:
       embedded:
         version: 5.0.5
+
+
+app:
+  crypto-key:
+    attribute-encrypt-key: xf6sDkpae4cYeR3YJn0VJQ8bRbvqLohx
+    iv: jHcGcPePw95wiXcANyb8FGfvjDOGTPQB
+
+  client:
+    payment:
+      host: http://localhost:8090
+      use-dummy: true
