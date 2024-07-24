@@ -12,4 +12,10 @@ class SampleController(
 ) {
     @GetMapping("/hello")
     fun hello(): ResponseEntity<String> = ResponseEntity.ok(sampleService.hello())
+
+    @GetMapping("/hello-redis")
+    fun helloRedis(): ResponseEntity<String> = ResponseEntity.ok(sampleService.helloRedis())
+
+    @GetMapping("/hello-mongo")
+    fun helloMongo(): ResponseEntity<String> = ResponseEntity.ok(sampleService.helloMongo())
 }
