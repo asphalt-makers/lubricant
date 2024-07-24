@@ -11,7 +11,7 @@ spring:
     password: local
   data:
     mongodb:
-      uri: mongodb://localhost:27018
+      uri: mongodb://localhost:37018
       database: lubricant
     redis:
       timeout: 3000ms
