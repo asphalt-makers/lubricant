@@ -18,4 +18,7 @@ class SampleController(
 
     @GetMapping("/hello-mongo")
     fun helloMongo(): ResponseEntity<String> = ResponseEntity.ok(sampleService.helloMongo())
+
+    @GetMapping("/hello-error")
+    fun helloError(): ResponseEntity<String> = throw RuntimeException("runtime exception")
 }

@@ -6,7 +6,6 @@ import jakarta.servlet.ServletInputStream
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletRequestWrapper
 import jakarta.servlet.http.HttpServletResponse
-import org.asphalt.lubricant.util.toJson
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
 import org.springframework.http.server.ServletServerHttpRequest
@@ -52,7 +51,7 @@ class RequestResponseLogFilter : OncePerRequestFilter() {
         request.getSession(false)?.let { message["session"] = it.id }
         request.remoteUser?.let { message["remote-user"] = it }
         message["headers"] = ServletServerHttpRequest(request).headers
-        log.info(message.toJson())
+        log.info(message.toString())
     }
 
     private fun afterRequest(
@@ -63,17 +62,15 @@ class RequestResponseLogFilter : OncePerRequestFilter() {
     ) {
         val message = loggingMessage(RESPONSE_PREFIX, request)
         message["statue"] = wrappedResponse.status
-        appendMaskingResponseContent(wrappedResponse.contentAsByteArray.toString(charset), message)
         message["latency"] = "${System.currentTimeMillis() - startTime}ms"
+        appendMaskingRequestBody(requestBody, message)
 
         if (HttpStatus.valueOf(wrappedResponse.status).is2xxSuccessful) {
             if (log.isDebugEnabled && requestBody != null) {
-                appendMaskingRequestBody(requestBody, message)
+                appendMaskingResponseContent(wrappedResponse.contentAsByteArray.toString(charset), message)
             }
-            log.info(message.toJson())
+            log.info(message.toString())
         } else {
-            appendMaskingRequestBody(requestBody, message)
-            message["status"] = wrappedResponse.status
             log.error(message.toString())
         }
     }
