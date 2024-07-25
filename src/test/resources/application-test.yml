@@ -20,6 +20,14 @@ spring:
         web-allow-others: true
       path: /h2-console
 
+  task:
+    execution:
+      thread-name-prefix: Async-
+      pool:
+        max-size: 16
+        queue-capacity: 50
+        keep-alive: 1s
+
   config:
     activate:
       on-profile: test
