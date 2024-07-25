@@ -7,6 +7,7 @@ import org.asphalt.lubricant.util.toJson
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.context.annotation.Import
 import org.springframework.http.HttpMethod
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
@@ -30,6 +31,7 @@ import java.net.URI
 @AutoConfigureEmbeddedRedis(serverConfigurerClass = "org.asphalt.lubricant.config.EmbeddedRedisConfiguration")
 @ContextConfiguration(classes = [EmbeddedRedisAutoConfiguration::class, DefaultRedisConfig::class])
 @AutoConfigureMockMvc
+@Import(MockMvcCustomizer::class)
 class FlowTestSupport {
     @Autowired
     final lateinit var mockMvc: MockMvc
