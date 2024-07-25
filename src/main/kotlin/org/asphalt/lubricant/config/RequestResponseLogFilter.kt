@@ -172,16 +172,16 @@ internal class MultiReadHttpServletRequest(
 private object PrivacyFilter {
     private val logger = LoggerFactory.getLogger(PrivacyFilter::class.java)
 
-    private const val stringPattern = "\"%s\"\\s*:\\s*\"([^\"]+)\",?"
+    private const val STRING_PATTERN = "\"%s\"\\s*:\\s*\"([^\"]+)\",?"
 
     //    private const val intPattern = "\"%s\"\\s*:\\s*([0-9]+)"
     private val filterPatterns =
         listOf(
-            stringPattern.format("phone").toRegex(),
-            stringPattern.format("address").toRegex(),
-            stringPattern.format("userName").toRegex(),
-            stringPattern.format("email").toRegex(),
-            stringPattern.format("birthday").toRegex(),
+            STRING_PATTERN.format("phone").toRegex(),
+            STRING_PATTERN.format("address").toRegex(),
+            STRING_PATTERN.format("userName").toRegex(),
+            STRING_PATTERN.format("email").toRegex(),
+            STRING_PATTERN.format("birthday").toRegex(),
 //        intPattern.format("userId").toRegex(),
 //        intPattern.format("user-id").toRegex(),
         )
