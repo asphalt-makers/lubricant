@@ -1,4 +1,4 @@
-package org.asphalt.lubricant.domain.sample
+package org.asphalt.lubricant.sample.persistence.redis
 
 import org.asphalt.lubricant.config.redis.RedisKey
 

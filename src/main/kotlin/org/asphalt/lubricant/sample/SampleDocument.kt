@@ -1,4 +1,4 @@
-package org.asphalt.lubricant.domain.sample
+package org.asphalt.lubricant.sample
 
 import jakarta.persistence.Id
 import org.bson.types.ObjectId
