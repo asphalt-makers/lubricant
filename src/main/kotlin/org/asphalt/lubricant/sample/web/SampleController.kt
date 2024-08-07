@@ -1,5 +1,6 @@
-package org.asphalt.lubricant.domain.sample
+package org.asphalt.lubricant.sample.web
 
+import org.asphalt.lubricant.sample.service.SampleService
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
@@ -18,6 +19,9 @@ class SampleController(
 
     @GetMapping("/hello-mongo")
     fun helloMongo(): ResponseEntity<String> = ResponseEntity.ok(sampleService.helloMongo())
+
+    @GetMapping("/hello-jpa")
+    fun helloJpa(): ResponseEntity<Long> = ResponseEntity.ok(sampleService.helloJpa())
 
     @GetMapping("/hello-error")
     fun helloError(): ResponseEntity<String> = throw RuntimeException("runtime exception")

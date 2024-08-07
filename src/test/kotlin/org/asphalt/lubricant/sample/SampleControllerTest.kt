@@ -3,7 +3,7 @@ package org.asphalt.lubricant.sample
 import org.asphalt.lubricant.common.RoleHeader
 import org.asphalt.lubricant.config.ErrorResponse
 import org.asphalt.lubricant.config.FlowTestSupport
-import org.asphalt.lubricant.domain.sample.SampleController
+import org.asphalt.lubricant.sample.web.SampleController
 import org.asphalt.lubricant.util.fromJson
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.DisplayName
@@ -54,6 +54,22 @@ class SampleControllerTest : FlowTestSupport() {
     @DisplayName("Sample Controller 테스트 - mongo")
     fun mongo() {
         val uri = linkTo<SampleController> { helloMongo() }.toUri()
+        val result =
+            mockMvcFlow(
+                HttpMethod.GET,
+                uri,
+                listOf(
+                    Pair(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON),
+                    Pair(RoleHeader.User.KEY, userId),
+                ),
+            )
+        assertThat(result).isNotBlank()
+    }
+
+    @Test
+    @DisplayName("Sample Controller 테스트 - jpa")
+    fun jpa() {
+        val uri = linkTo<SampleController> { helloJpa() }.toUri()
         val result =
             mockMvcFlow(
                 HttpMethod.GET,
