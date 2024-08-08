@@ -46,4 +46,11 @@ app:
   client:
     payment:
       host: http://localhost:8090
+      timeout: 2
+      logging: true
       use-dummy: true
+    ex-rate:
+      host: https://open.er-api.com/
+      timeout: 2
+      logging: true
+      use-dummy: false

@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
+import java.math.BigDecimal
 
 @RestController
 @RequestMapping("/v1")
@@ -25,4 +26,7 @@ class SampleController(
 
     @GetMapping("/hello-error")
     fun helloError(): ResponseEntity<String> = throw RuntimeException("runtime exception")
+
+    @GetMapping("/hello-ex-rate")
+    fun helloExRate(): ResponseEntity<BigDecimal> = ResponseEntity.ok(sampleService.helloExRate())
 }
