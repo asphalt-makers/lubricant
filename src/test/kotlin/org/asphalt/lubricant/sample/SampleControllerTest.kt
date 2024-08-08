@@ -103,4 +103,20 @@ class SampleControllerTest : FlowTestSupport() {
             { assertThat(result.message).isEqualTo("runtime exception") },
         )
     }
+
+    @Test
+    @DisplayName("Sample Controller 테스트 - ExRate client")
+    fun exRate() {
+        val uri = linkTo<SampleController> { helloExRate() }.toUri()
+        val result =
+            mockMvcFlow(
+                HttpMethod.GET,
+                uri,
+                listOf(
+                    Pair(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON),
+                    Pair(RoleHeader.User.KEY, userId),
+                ),
+            )
+        assertThat(result).isNotBlank()
+    }
 }
