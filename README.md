@@ -1,7 +1,8 @@
 # boilerplate
+kotlin, spring boot with mysql, mongodb, reids
 
 # Requirements
-JDK 21
+jdk21, docker
 
 # How to Run
 ```
