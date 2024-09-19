@@ -29,6 +29,7 @@ class WebConfig : DelegatingWebMvcConfiguration() {
     fun apiLogFilter(): FilterRegistrationBean<ApiLogFilter> {
         val registrationBean = FilterRegistrationBean<ApiLogFilter>()
         registrationBean.filter = ApiLogFilter()
+        registrationBean.addUrlPatterns("/v1/*")
         return registrationBean
     }
 
