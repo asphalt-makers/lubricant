@@ -29,14 +29,14 @@ class SampleService(
     fun helloMongo(): String {
         val sampleDocument = SampleDocument("Hello, mongo!")
         sampleDocumentRepository.save(sampleDocument)
-        log.info("Created sample document - $sampleDocument")
+        log.info("Created sample document - ${sampleDocument.id}")
         return sampleDocument.id.toString()
     }
 
     fun helloJpa(): Long {
         val sample = Sample("Hello, jdbc!")
         sampleJpaRepository.save(sample)
-        log.info("Created sample - $sample")
+        log.info("Created sample - ${sample.id}")
         return sample.id!!
     }
 

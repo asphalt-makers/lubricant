@@ -25,6 +25,8 @@ spring:
             period: 60s
   jpa:
     open-in-view: false
+    hibernate:
+      ddl-auto: create-drop
 
   task:
     execution:
