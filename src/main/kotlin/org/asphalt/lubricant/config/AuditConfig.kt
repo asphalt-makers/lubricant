@@ -14,16 +14,18 @@ import java.util.Optional
 class AuditConfig {
     @Bean
     fun auditorAware(): AuditorAware<String> =
-        AuditorAware<String> {
-            var auditor = UNKNOWN_AUDITOR
-            if (RequestContextHolder.getRequestAttributes() != null) {
-                val request = (RequestContextHolder.currentRequestAttributes() as ServletRequestAttributes).request
+        AuditorAware {
+            val requestAttributes = RequestContextHolder.getRequestAttributes() as? ServletRequestAttributes
+            val request = requestAttributes?.request
 
-                val adminId = request.getHeader(RoleHeader.Admin.KEY)
-                val userId = request.getHeader(RoleHeader.User.KEY)
+            val auditor =
+                request?.let {
+                    val adminId = it.getHeader(RoleHeader.Admin.KEY)
+                    val userId = it.getHeader(RoleHeader.User.KEY)
 
-                auditor = adminId?.let { "A:$adminId" } ?: userId?.let { "U:$userId" } ?: UNKNOWN_AUDITOR
-            }
+                    adminId?.let { "A:$adminId" } ?: userId?.let { "U:$userId" } ?: UNKNOWN_AUDITOR
+                } ?: UNKNOWN_AUDITOR
+
             Optional.of(auditor)
         }
 

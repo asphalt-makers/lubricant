@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController
 import java.time.LocalDateTime
 
 @ControllerAdvice(annotations = [RestController::class])
-class ExceptionHandler {
+class GlobalExceptionHandler {
     private val log = LoggerFactory.getLogger(ExceptionHandler::class.java)
 
     @ExceptionHandler(value = [RuntimeException::class])
@@ -33,15 +33,26 @@ class ExceptionHandler {
         ex: Exception,
         causeBy: Map<String, Any>? = null,
     ): ErrorResponse {
-        log.error("classification|error|${ex.javaClass.simpleName}|${ex.message}", ex)
+        log.error("Error occurred - Type: ${ex.javaClass.simpleName}, Message: ${ex.message}, Path: ${request.servletPath}", ex)
+
         return ErrorResponse(
             timestamp = LocalDateTime.now(),
             status = status.value(),
             error = status.reasonPhrase,
-            message = ex.message,
+            message = ex.message ?: "Unknown error",
             path = request.servletPath,
             causeBy = causeBy,
-            trace = ex.stackTraceToString(), // TODO : 이걸 좀 예쁘게 찍어보자
+            trace = formatStackTrace(ex.stackTraceToString()),
         )
+    }
+
+    // 트레이스 요약
+    private fun formatStackTrace(stackTrace: String): String {
+        val lines = stackTrace.lines()
+        return if (lines.size > 5) {
+            lines.take(5).joinToString("\n") + "\n... (stack trace truncated)"
+        } else {
+            stackTrace
+        }
     }
 }

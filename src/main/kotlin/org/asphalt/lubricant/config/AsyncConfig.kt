@@ -17,24 +17,20 @@ import java.util.concurrent.ThreadPoolExecutor
 class AsyncConfig(
     private val taskExecutionProperties: TaskExecutionProperties,
 ) : AsyncConfigurer {
-    override fun getAsyncUncaughtExceptionHandler(): AsyncUncaughtExceptionHandler? = CustomAsyncExceptionHandler()
+    override fun getAsyncUncaughtExceptionHandler(): AsyncUncaughtExceptionHandler = CustomAsyncExceptionHandler()
 
-    override fun getAsyncExecutor(): Executor {
-        val executor =
-            ThreadPoolTaskExecutor().apply {
-                setThreadNamePrefix(taskExecutionProperties.threadNamePrefix)
-
-                corePoolSize = taskExecutionProperties.pool.coreSize
-                maxPoolSize = taskExecutionProperties.pool.maxSize
-                queueCapacity = taskExecutionProperties.pool.queueCapacity
-                keepAliveSeconds =
-                    taskExecutionProperties.pool.keepAlive.seconds
-                        .toInt()
-                setRejectedExecutionHandler(CustomAsyncRejectedExecutionHandler())
-            }
-        executor.initialize()
-        return executor
-    }
+    override fun getAsyncExecutor(): Executor =
+        ThreadPoolTaskExecutor().apply {
+            setThreadNamePrefix(taskExecutionProperties.threadNamePrefix)
+            corePoolSize = taskExecutionProperties.pool.coreSize
+            maxPoolSize = taskExecutionProperties.pool.maxSize
+            queueCapacity = taskExecutionProperties.pool.queueCapacity
+            keepAliveSeconds =
+                taskExecutionProperties.pool.keepAlive.seconds
+                    .toInt()
+            setRejectedExecutionHandler(CustomAsyncRejectedExecutionHandler())
+            initialize()
+        }
 }
 
 class CustomAsyncExceptionHandler : AsyncUncaughtExceptionHandler {
@@ -45,7 +41,7 @@ class CustomAsyncExceptionHandler : AsyncUncaughtExceptionHandler {
         method: Method,
         vararg params: Any?,
     ) {
-        log.error("Method: ${method.name}, Params: $params, Message: ${ex.message}")
+        log.error("Unhandled async exception in method: ${method.name}, Params: ${params.joinToString()}, Error: ${ex.message}")
     }
 }
 
@@ -56,6 +52,6 @@ class CustomAsyncRejectedExecutionHandler : RejectedExecutionHandler {
         r: Runnable?,
         executor: ThreadPoolExecutor?,
     ) {
-        log.error("No more requests can be processed!! [$executor]")
+        log.error("Task rejected from executor: [$executor], Task: [$r]")
     }
 }

@@ -1,6 +1,5 @@
 package org.asphalt.lubricant.config
 
-import org.asphalt.lubricant.config.scope.BlockProfileInterceptor
 import org.asphalt.lubricant.util.Jackson
 import org.springframework.boot.web.servlet.FilterRegistrationBean
 import org.springframework.context.annotation.Bean
@@ -13,14 +12,11 @@ import org.springframework.http.converter.StringHttpMessageConverter
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
 import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.servlet.config.annotation.DelegatingWebMvcConfiguration
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry
 import java.time.format.DateTimeFormatter
 
 @Configuration
 @ControllerAdvice
-class WebConfig(
-    private val blockProfileInterceptor: BlockProfileInterceptor,
-) : DelegatingWebMvcConfiguration() {
+class WebConfig : DelegatingWebMvcConfiguration() {
     override fun configureMessageConverters(converters: MutableList<HttpMessageConverter<*>>) {
         val objectMapper = Jackson.getMapper()
         converters.add(ByteArrayHttpMessageConverter())
@@ -29,16 +25,12 @@ class WebConfig(
         super.configureMessageConverters(converters)
     }
 
-    override fun addInterceptors(registry: InterceptorRegistry) {
-        registry.addInterceptor(blockProfileInterceptor)
-        super.addInterceptors(registry)
-    }
-
     @Bean
-    fun requestResponseLogFilter(): FilterRegistrationBean<RequestResponseLogFilter> =
-        FilterRegistrationBean<RequestResponseLogFilter>().apply {
-            filter = RequestResponseLogFilter()
-        }
+    fun apiLogFilter(): FilterRegistrationBean<ApiLogFilter> {
+        val registrationBean = FilterRegistrationBean<ApiLogFilter>()
+        registrationBean.filter = ApiLogFilter()
+        return registrationBean
+    }
 
     @Bean
     override fun mvcConversionService(): FormattingConversionService {
