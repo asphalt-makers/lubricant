@@ -13,7 +13,7 @@ import java.math.BigDecimal
 class SampleService(
     private val stringRedisTemplate: StringRedisTemplate,
     private val sampleDocumentRepository: SampleDocumentRepository,
-    private val sampleJpaRepository: SampleJpaRepository,
+    private val sampleJdbcRepository: SampleJdbcRepository,
     private val exRateClient: ExRateClient,
 ) {
     private val log = LoggerFactory.getLogger(SampleService::class.java)
@@ -35,7 +35,7 @@ class SampleService(
 
     fun helloJpa(): Long {
         val sample = Sample("Hello, jdbc!")
-        sampleJpaRepository.save(sample)
+        sampleJdbcRepository.save(sample)
         log.info("Created sample - ${sample.id}")
         return sample.id!!
     }
