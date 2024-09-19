@@ -4,31 +4,31 @@ import com.fasterxml.jackson.core.JsonGenerator
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.SerializationFeature
 import com.fasterxml.jackson.databind.SerializerProvider
+import com.fasterxml.jackson.databind.module.SimpleModule
 import com.fasterxml.jackson.databind.ser.std.StdSerializer
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
-import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.util.Date
 
 object Jackson {
-    private val mapper =
-        Jackson2ObjectMapperBuilder
-            .json()
-            .featuresToDisable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
-            .modules(JavaTimeModule())
-            .serializerByType(
-                LocalDateTime::class.java,
-                LocalDateTimeSerializer(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss")),
-            ).serializers(CustomDateSerializer())
-            .build<ObjectMapper>()
+    // Lazy initialization to create ObjectMapper when needed
+    private val mapper: ObjectMapper by lazy {
+        jacksonObjectMapper()
             .registerKotlinModule()
+            .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
+            .registerModule(JavaTimeModule())
+            .registerModule(customDateModule()) // Custom Date serializer registration
+    }
 
-    fun getMapper(): ObjectMapper = mapper
+    // Function to register the custom Date serializer
+    private fun customDateModule(): SimpleModule = SimpleModule().addSerializer(Date::class.java, CustomDateSerializer())
+
+    fun mapper(): ObjectMapper = mapper
 }
 
 private class CustomDateSerializer : StdSerializer<Date>(Date::class.java) {
@@ -37,18 +37,16 @@ private class CustomDateSerializer : StdSerializer<Date>(Date::class.java) {
         gen: JsonGenerator?,
         provider: SerializerProvider?,
     ) {
-        if (value != null && gen != null) {
-            gen.writeString(
+        value?.let {
+            gen?.writeString(
                 LocalDateTime
-                    .ofInstant(
-                        value.toInstant(),
-                        ZoneId.systemDefault(),
-                    ).format(DateTimeFormatter.ISO_DATE_TIME),
+                    .ofInstant(it.toInstant(), ZoneId.systemDefault())
+                    .format(DateTimeFormatter.ISO_DATE_TIME),
             )
         }
     }
 }
 
-internal fun <T> T.toJson(): String = Jackson.getMapper().writeValueAsString(this)
+internal fun <T> T.toJson(): String = Jackson.mapper().writeValueAsString(this)
 
-internal inline fun <reified T> String.fromJson(): T = Jackson.getMapper().readValue(this)
+internal inline fun <reified T> String.fromJson(): T = Jackson.mapper().readValue(this)

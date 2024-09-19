@@ -12,7 +12,7 @@ class Crypto(
     private val ivParameterSpec = IvParameterSpec(iv.toByteArray())
     private val algorithm = "AES/CBC/PKCS5Padding"
     private val keySpec = SecretKeySpec(key.toByteArray(), "AES")
-    private val jackson = Jackson.getMapper()
+    private val jackson = Jackson.mapper()
 
     fun enc(value: Any): String {
         val cipher = Cipher.getInstance(algorithm)
