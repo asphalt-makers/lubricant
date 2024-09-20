@@ -1,6 +1,6 @@
 ## boilerplate
 kotlin, spring boot with mysql, mongodb, reids.  
-Make fast **rest api** and **business logic** 
+Make fast **rest api** and **business logic**. 
 
 ## Requirements
 jdk21, docker
