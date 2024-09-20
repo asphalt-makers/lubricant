@@ -3,7 +3,7 @@ package org.asphalt.lubricant.config
 import com.asarkar.spring.test.redis.AutoConfigureEmbeddedRedis
 import com.asarkar.spring.test.redis.EmbeddedRedisAutoConfiguration
 import org.asphalt.lubricant.LubricantApplication
-import org.asphalt.lubricant.util.toJson
+import org.asphalt.lubricant.common.toJson
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
