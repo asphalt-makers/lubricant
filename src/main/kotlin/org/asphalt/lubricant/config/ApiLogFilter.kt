@@ -27,13 +27,12 @@ class ApiLogFilter : OncePerRequestFilter() {
         val wrappedRequest = ContentCachingRequestWrapper(request)
         val wrappedResponse = ContentCachingResponseWrapper(response)
         val startTime = System.currentTimeMillis()
-
         try {
+            logRequest(wrappedRequest)
             filterChain.doFilter(wrappedRequest, wrappedResponse)
         } finally {
             val duration = System.currentTimeMillis() - startTime
             if (!isMultipartRequest(request)) {
-                logRequest(wrappedRequest)
                 logResponse(wrappedResponse, duration)
             } else {
                 log.info("Multipart request - Skipping body logging")

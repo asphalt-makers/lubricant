@@ -1,10 +1,10 @@
 package org.asphalt.lubricant.sample
 
 import org.asphalt.lubricant.common.RoleHeader
-import org.asphalt.lubricant.config.ErrorResponse
+import org.asphalt.lubricant.common.fromJson
 import org.asphalt.lubricant.config.FlowTestSupport
-import org.asphalt.lubricant.sample.web.SampleController
-import org.asphalt.lubricant.util.fromJson
+import org.asphalt.lubricant.config.exception.ErrorResponse
+import org.asphalt.lubricant.domain.sample.web.SampleController
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test

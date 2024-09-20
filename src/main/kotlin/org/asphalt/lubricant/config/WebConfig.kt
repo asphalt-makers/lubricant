@@ -1,6 +1,6 @@
 package org.asphalt.lubricant.config
 
-import org.asphalt.lubricant.util.Jackson
+import org.asphalt.lubricant.common.Jackson
 import org.springframework.boot.web.servlet.FilterRegistrationBean
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
